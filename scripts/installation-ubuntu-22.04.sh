@@ -99,7 +99,7 @@ function run_bookstack_download() {
   cd /var/www || exit
   if [ "$CERTCHECK"=true ]
   then
-    git clone https://github.com/BookStackApp/BookStack.git --branch release --single-branch bookstack --no-check-certificate
+    git -c http.sslVerify=false  clone https://github.com/BookStackApp/BookStack.git --branch release --single-branch bookstack
   else
     git clone https://github.com/BookStackApp/BookStack.git --branch release --single-branch bookstack
   fi
