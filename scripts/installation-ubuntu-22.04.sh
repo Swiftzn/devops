@@ -7,6 +7,9 @@ echo ""
 # Generate a path for a log file to output into for debugging
 LOGPATH=$(realpath "bookstack_install_$(date +%s).log")
 
+# Bypass Certificate Checks default is $FALSE
+CERTCHECK=false
+
 # Get the current user running the script
 SCRIPT_USER="${SUDO_USER:-$USER}"
 
@@ -94,7 +97,12 @@ function run_database_setup() {
 # Download BookStack
 function run_bookstack_download() {
   cd /var/www || exit
-  git clone https://github.com/BookStackApp/BookStack.git --branch release --single-branch bookstack
+  if [ "$CERTCHECK"= true ]
+  then
+    git clone https://github.com/BookStackApp/BookStack.git --branch release --single-branch bookstack --no-check-certificate
+  else
+    git clone https://github.com/BookStackApp/BookStack.git --branch release --single-branch bookstack
+  fi
 }
 
 # Install composer
